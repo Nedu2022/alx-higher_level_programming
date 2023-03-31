@@ -1,3 +1,3 @@
 #!/bin/bash
-# cURL get body size
-curl -sI "$1" | grep -i Content-Length | awk '{print $2}'
+# sends GET request to the URL and displays the body of the response
+curl -sfL "$1" -X GET
