@@ -1,23 +1,30 @@
 #!/usr/bin/python3
-"""A script tha:
-- takes in a letter
-- sends POST request to http://0.0.0.0:5000/search_user
-with the letter as a parameter.
+"""Script to format json response
 """
-import sys
 import requests
+import sys
+
+
+def format_json():
+    """Format JSON response as
+    required
+    """
+    try:
+        url = "http://0.0.0.0:5000/search_user"
+        q = ""
+        if len(sys.argv) > 1:
+            q = sys.argv[1]
+
+        res = requests.post(url, {"q": q})
+        body = res.json()
+
+        if len(body) == 0:
+            print("No result")
+        else:
+            print(f"[{body.get('id')}] {body.get('name')}")
+    except Exception:
+        print("Not a valid JSON")
 
 
 if __name__ == "__main__":
-    letter = "" if len(sys.argv) == 1 else sys.argv[1]
-    payload = {"q": letter}
-
-    r = requests.post("http://0.0.0.0:5000/search_user", data=payload)
-    try:
-        response = r.json()
-        if response == {}:
-            print("No result")
-        else:
-            print("[{}] {}".format(response.get("id"), response.get("name")))
-    except ValueError:
-        print("Not a valid JSON")
+    format_json()

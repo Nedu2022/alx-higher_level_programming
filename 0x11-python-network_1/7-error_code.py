@@ -1,18 +1,23 @@
 #!/usr/bin/python3
-"""A script that
-- takes in a URL
-- sends a request to the URL
-- displays the body of the response.
+"""Script make request to a url with error
+    handling included using python requests package
 """
-import sys
 import requests
+import sys
+
+
+def fetch():
+    """Make request to a url and handle
+    errors if any
+    """
+    url = sys.argv[1]
+    res = requests.get(url)
+
+    if res.status_code >= 400:
+        print(f"Error code: {res.status_code}")
+    else:
+        print(res.text)
 
 
 if __name__ == "__main__":
-    url = sys.argv[1]
-
-    r = requests.get(url)
-    if r.status_code >= 400:
-        print("Error code: {}".format(r.status_code))
-    else:
-        print(r.text)
+    fetch()
