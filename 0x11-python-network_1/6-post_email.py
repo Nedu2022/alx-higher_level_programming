@@ -1,19 +1,15 @@
 #!/usr/bin/python3
-"""Script to send email in post request
-to a url using python requests package
+"""A script that:
+- takes in a URL,
+- sends a request to the URL and displays the value
+- of the X-Request-Id variable found in the header ofthe response.
 """
-import requests
 import sys
-
-
-def post_email():
-    """Send email to the given url
-    using python requests package
-    """
-    url, email = sys.argv[1:]
-    res = requests.post(url, {"email": email})
-    print(res.text)
-
+import urllib.request
 
 if __name__ == "__main__":
-    post_email()
+    url = sys.argv[1]
+
+    request = urllib.request.Request(url)
+    with urllib.request.urlopen(request) as response:
+        print(dict(response.headers).get("X-Request-Id"))
